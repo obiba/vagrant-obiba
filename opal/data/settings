@@ -1,0 +1,5 @@
+RSTUDIO=rstudio-server-0.97.551-i386.deb
+#RSTUDIO=rstudio-server-0.97.551-amd64.deb
+#MYSQL_ROOT_PWD=rootpass
+#MYSQL_OPAL_PWD=opalpass
+#OPAL_PWD=pass246
