@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VAGRANT_DATA=/vagrant/data
+VAGRANT_DATA=/vagrant_data
 
 source $VAGRANT_DATA/settings
 
@@ -10,17 +10,17 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 echo "deb http://cran.rstudio.com/bin/linux/ubuntu precise/" >> /etc/apt/sources.list
 sudo apt-get update
 
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
-sudo apt-get -y install mysql-server 
+if [ ! -d /etc/mysql ];
+then
+	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
+	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
+	sudo apt-get -y install mysql-server 
+fi
 
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password pass246'
 sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password pass246'
 sudo apt-get -y install opal 
 #sudo apt-get -y install opal-python-client
-
-sudo apt-get -y install r-base
-sudo apt-get -y install r-cran-rserve
 
 
 # Opal database setup
@@ -47,7 +47,6 @@ then
 	mysql -uroot -prootpass opal_ids < $VAGRANT_DATA/mysql/opal_ids-initial.sql
 fi
 
-
 # Opal configuration setup
 if [ -d $VAGRANT_DATA/opal/conf ];
 then
@@ -62,6 +61,8 @@ then
 	sudo chown -R opal:nogroup /var/lib/opal/fs
 fi
 
+# R install
+sudo apt-get -y install r-base r-cran-rserve
 
 # R server setup
 if [ -f $VAGRANT_DATA/r/rserve ];
