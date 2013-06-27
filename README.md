@@ -1,4 +1,19 @@
-vagrant-obiba
+Vagrant OBiBa
 =============
 
-Vagrant files for OBiBa stack
+Vagrant files for OBiBa stack.
+
+## Prerequisites
+
+* [Vagrant](http://www.vagrantup.com/)
+* [VirtualBox (4.1)](ttps://www.virtualbox.org/)
+
+## Usage
+
+Example on the VirtualBox VM running Opal:
+
+	cd opal
+	vagrant up
+	# then connect to https://localhost:8843
+
+
