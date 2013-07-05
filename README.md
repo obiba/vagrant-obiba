@@ -62,7 +62,7 @@ Example of a AWS instance running Opal:
 
 Then connect to:
 * opal on https://aws-instance:8443
-* opal on `sftp -P 8822 administrator@aws-instance`
+* opal on `sftp -P 8022 administrator@aws-instance`
 * RStudio on https://aws-instance:8787
 
 ### Mica
@@ -87,5 +87,5 @@ Example of a AWS instance running Opal and Mica:
 Then connect to:
 * mica on http://aws-instance/mica
 * opal on https://aws-instance:8443
-* opal on `sftp -P 8822 administrator@aws-instance`
+* opal on `sftp -P 8022 administrator@aws-instance`
 * RStudio on https://aws-instance:8787 
