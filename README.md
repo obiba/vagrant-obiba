@@ -51,7 +51,7 @@ Then connect to:
 
 * [Vagrant](http://www.vagrantup.com/)
 * [Vagrant AWS](https://github.com/mitchellh/vagrant-aws): `vagrant plugin install vagrant-aws`
-* [a AWS account](https://aws.amazon.com/)
+* a [AWS account](https://aws.amazon.com/)
 
 ### Opal
 
