@@ -4,10 +4,18 @@ VAGRANT_DATA=/vagrant_data
 
 source $VAGRANT_DATA/settings
 
-wget -q -O - http://pkg.obiba.org/obiba.org.key | apt-key add -
-echo "deb http://pkg.obiba.org stable/" >> /etc/apt/sources.list
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-echo "deb http://cran.rstudio.com/bin/linux/ubuntu precise/" >> /etc/apt/sources.list
+if [ $(grep -c '^deb http://pkg.obiba.org stable/' /etc/apt/sources.list) -eq 0 ];
+then
+	wget -q -O - http://pkg.obiba.org/obiba.org.key | apt-key add -
+	sudo sh -c 'echo "deb http://pkg.obiba.org stable/" >> /etc/apt/sources.list'
+fi
+
+if [ $(grep -c '^deb http://cran.rstudio.com/bin/linux/ubuntu precise/' /etc/apt/sources.list) -eq 0 ];
+then
+	sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+	sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu precise/" >> /etc/apt/sources.list'
+fi
+
 sudo apt-get update
 
 if [ ! -d /etc/mysql ];
