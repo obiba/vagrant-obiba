@@ -28,7 +28,7 @@ fi
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password pass246'
 sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password pass246'
 sudo apt-get -y install opal 
-#sudo apt-get -y install opal-python-client
+sudo apt-get -y install opal-python-client
 
 
 # Opal database setup
@@ -89,3 +89,14 @@ sudo dpkg -i $RSTUDIO
 
 sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
 sudo update-rc.d rstudio-server defaults
+
+# Opal R client
+sudo apt-get -y install libcurl4-openssl-dev
+if [ -f $VAGRANT_DATA/r/install-opal-r-client.R ];
+then
+	sudo Rscript $VAGRANT_DATA/r/install-opal-r-client.R
+fi
+
+# Add default datashield user
+sudo adduser --disabled-password --gecos "" datashield
+echo "datashield:datashield4ever" | sudo chpasswd
