@@ -25,11 +25,10 @@ then
 	sudo apt-get -y install mysql-server 
 fi
 
-sudo debconf-set-selections <<< 'opal opal-server/admin_password password pass246'
-sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password pass246'
+sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
+sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password password'
 sudo apt-get -y install opal 
 sudo apt-get -y install opal-python-client
-
 
 # Opal database setup
 if [ -f $VAGRANT_DATA/mysql/my.cnf ];
@@ -86,6 +85,7 @@ fi
 wget http://download2.rstudio.org/$RSTUDIO
 sudo apt-get -y install libssl0.9.8
 sudo dpkg -i $RSTUDIO
+rm $RSTUDIO
 
 sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
 sudo update-rc.d rstudio-server defaults

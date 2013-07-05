@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt-get update
+
 # if mysql does not exist
 if [ ! -d /etc/mysql ];
 then
