@@ -97,6 +97,8 @@ then
 	sudo Rscript $VAGRANT_DATA/r/install-opal-r-client.R
 fi
 
+# TODO install DataSHIELD packages (needs to restart rserve)
+
 # Add default datashield user
 sudo adduser --disabled-password --gecos "" datashield
 echo "datashield:datashield4ever" | sudo chpasswd

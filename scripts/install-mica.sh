@@ -44,5 +44,6 @@ then
 	sudo service apache2 restart
 fi
 
-# restart mica-solr
-sudo /etc/init.d/mica-solr restart
+# Add mica-solr service to boot
+sudo update-rc.d mica-solr defaults
+sudo service mica-solr restart
