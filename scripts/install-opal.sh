@@ -95,6 +95,9 @@ sudo apt-get -y install libcurl4-openssl-dev
 if [ -f $VAGRANT_DATA/r/install-opal-r-client.R ];
 then
 	sudo Rscript $VAGRANT_DATA/r/install-opal-r-client.R
+	sudo service rserve stop
+	sudo service rserve start
+	sudo Rscript $VAGRANT_DATA/r/install-opal-r-server.R
 fi
 
 # TODO install DataSHIELD packages (needs to restart rserve)
