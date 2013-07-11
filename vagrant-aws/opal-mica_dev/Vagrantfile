@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # See https://github.com/mitchellh/vagrant-aws/blob/master/README.md
+  config.vm.box = "dummy"
+  config.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+
+  config.vm.provision :shell, :path => "../../scripts/install-opal.sh"
+  config.vm.provision :shell, :path => "../../scripts/install-lamp.sh"
+  config.vm.provision :shell, :path => "../../scripts/install-mica_dev.sh"
+  config.vm.synced_folder "../../data", "/vagrant_data"
+
+  config.vm.provider :aws do |aws, override|
+    aws.access_key_id = "YOUR KEY"
+    aws.secret_access_key = "YOUR SECRET KEY"
+    aws.keypair_name = "KEYPAIR NAME"
+    #aws.security_groups=["default"]
+
+    # See http://cloud-images.ubuntu.com/releases/precise/release-20130204/
+    # precise32 us-east-1
+    aws.ami = "ami-0f45d266"
+    # precise32 eu-west-1
+    #aws.ami = "ami-26414852"
+
+    # One of: m1.small, m1.medium, c1.medium
+    aws.instance_type = "m1.medium"
+    
+    override.ssh.username = "ubuntu"
+    override.ssh.private_key_path = "PATH TO YOUR PRIVATE KEY"
+  end
+end
