@@ -4,13 +4,30 @@ VAGRANT_DATA=/vagrant_data
 
 source $VAGRANT_DATA/settings
 
-if [ $(grep -c '^deb http://pkg.obiba.org unstable/' /etc/apt/sources.list) -eq 0 ];
-then
-	wget -q -O - http://pkg.obiba.org/obiba.org.key | apt-key add -
-	sudo sh -c 'echo "deb http://pkg.obiba.org unstable/" >> /etc/apt/sources.list'
-fi
+sudo apt-get -y install git
+sudo apt-get -y install make
+sudo apt-get -y install unzip
+sudo apt-get -y install openjdk-7-jre
 
-sudo apt-get update
+git clone https://github.com/obiba/mica.git
+cd mica
+make install-packaging-dependencies 
+make install-drush
+mkdir target
+make install-lessc
+
+make dev
+
+cd /home/vagrant/mica
+mkdir -p solr
+cd solr
+wget -q http://mirror.csclub.uwaterloo.ca/apache/lucene/solr/4.2.1/solr-4.2.1.tgz
+tar -zxf solr-4.2.1.tgz
+cp /home/vagrant/mica/target/mica-dev/profiles/mica_distribution/modules/search_api_solr/solr-conf/4.x/* solr-4.2.1/example/solr/collection1/conf
+rm solr-4.2.1.tgz
+
+cd /home/vagrant/mica
+cp -r target/mica-dev /var/www/
 
 if [ ! -d /etc/mysql ];
 then
@@ -18,14 +35,6 @@ then
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
 	sudo apt-get -y install mysql-server 
 fi
-
-sudo debconf-set-selections <<< 'mica mica/dbconfig-install boolean false'
-sudo debconf-set-selections <<< 'mica mica/database-type select mysql'
-sudo debconf-set-selections <<< 'mica mica/mysql/admin-pass password rootpass'
-sudo debconf-set-selections <<< 'mica mica/mysql/app-pass password pass246'
-sudo debconf-set-selections <<< 'mica mica/password-confirm password pass246'
-
-sudo apt-get -y install mica
 
 # load preinstalled database
 if [ -f $VAGRANT_DATA/mica_dev/mica.sql ];
@@ -35,15 +44,12 @@ fi
 
 if [ -f $VAGRANT_DATA/mica/settings.php ];
 then
-	sudo cp $VAGRANT_DATA/mica/settings.php /usr/share/mica/sites/default/
+	sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica-dev/sites/default/
 fi
 
 if [ -f $VAGRANT_DATA/mica/php.ini ];
 then
-	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/
-	sudo service apache2 restart
+	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/	
 fi
 
-# Add mica-solr service to boot
-sudo update-rc.d mica-solr defaults
-sudo service mica-solr restart
+nohup make start-solr&
