@@ -28,19 +28,19 @@ sudo debconf-set-selections <<< 'mica mica/password-confirm password pass246'
 sudo apt-get -y install mica
 
 # load preinstalled database
-if [ -f $VAGRANT_DATA/mica/mica.sql ];
+if [ -f $VAGRANT_DATA/mica_dev/mica.sql ];
 then
 	sudo mysql -u mica --password='pass246' mica < $VAGRANT_DATA/mica_dev/mica_dev.sql
 fi
 
-if [ -f $VAGRANT_DATA/mica_dev/settings.php ];
+if [ -f $VAGRANT_DATA/mica/settings.php ];
 then
-	sudo cp $VAGRANT_DATA/mica_dev/settings.php /usr/share/mica/sites/default/
+	sudo cp $VAGRANT_DATA/mica/settings.php /usr/share/mica/sites/default/
 fi
 
-if [ -f $VAGRANT_DATA/mica_dev/php.ini ];
+if [ -f $VAGRANT_DATA/mica/php.ini ];
 then
-	sudo cp $VAGRANT_DATA/mica_dev/php.ini /etc/php5/apache2/
+	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/
 	sudo service apache2 restart
 fi
 
