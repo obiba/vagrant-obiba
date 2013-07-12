@@ -57,6 +57,7 @@ fi
 
 sudo chown -R vagrant /home/vagrant/mica
 
+# install mica-solr as a daemon
 sudo apt-get install daemon
 sudo mkdir -p /usr/share/mica-solr
 sudo mkdir -p /etc/mica-solr
@@ -66,7 +67,6 @@ sudo make mica-solr-install-prepare
 sudo make solr-install-setup
 sudo cp ../../../../../../../target/mica-dev/profiles/mica_distribution/modules/search_api_solr/solr-conf/4.x/* /usr/share/mica-solr/solr/collection1/conf/
 sudo make solr-install-finish
-
 cd /home/vagrant
 sudo cp mica/src/main/deb/mica-solr/debian/init.d /etc/init.d/mica-solr
 sudo chmod +x /etc/init.d/mica-solr
