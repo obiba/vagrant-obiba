@@ -19,14 +19,6 @@ make install-lessc
 make dev
 
 cd /home/vagrant/mica
-mkdir -p solr
-cd solr
-wget -q http://mirror.csclub.uwaterloo.ca/apache/lucene/solr/4.2.1/solr-4.2.1.tgz
-tar -zxf solr-4.2.1.tgz
-cp /home/vagrant/mica/target/mica-dev/profiles/mica_distribution/modules/search_api_solr/solr-conf/4.x/* solr-4.2.1/example/solr/collection1/conf
-rm solr-4.2.1.tgz
-
-cd /home/vagrant/mica
 cp -r target/mica-dev /var/www/
 
 if [ ! -d /etc/mysql ];
