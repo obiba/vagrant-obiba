@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "precise32"
+  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.provision :shell, :path => "../../scripts/install-lamp.sh"
+  config.vm.provision :shell, :path => "../../scripts/install-mica_dev.sh"
+  config.vm.network :forwarded_port, host: 8800, guest: 80
+  config.vm.synced_folder "../../data", "/vagrant_data"
+
+  config.vm.provider :virtualbox do |vb|
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
+  end
+end
