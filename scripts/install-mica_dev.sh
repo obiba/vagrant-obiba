@@ -37,8 +37,11 @@ then
 fi
 
 # load preinstalled database
-if [ -f $VAGRANT_DATA/mica_dev/mica.sql ];
+if [ -f $VAGRANT_DATA/mica_dev/mica_dev.sql ];
 then
+	echo "CREATE USER 'mica'@'localhost' IDENTIFIED BY 'pass246'" | mysql -uroot -prootpass
+	echo "CREATE DATABASE mica" | mysql -uroot -prootpass
+	echo "GRANT ALL ON mica.* TO 'mica'@'localhost'" | mysql -uroot -prootpass
 	sudo mysql -u mica --password='pass246' mica < $VAGRANT_DATA/mica_dev/mica_dev.sql
 fi
 
@@ -52,4 +55,6 @@ then
 	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/	
 fi
 
-nohup make start-solr&
+sudo chown -R vagrant /home/vagrant/mica
+
+#nohup make start-solr&
