@@ -82,7 +82,7 @@ then
 fi
 
 # R studio setup
-wget http://download2.rstudio.org/$RSTUDIO
+wget -q http://download2.rstudio.org/$RSTUDIO
 sudo apt-get -y install libssl0.9.8
 sudo dpkg -i $RSTUDIO
 rm $RSTUDIO
