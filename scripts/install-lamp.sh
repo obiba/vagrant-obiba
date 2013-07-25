@@ -17,7 +17,7 @@ then
 	sudo apt-get -y install apache2
 
 	# Install PHP5 support
-	sudo apt-get -y install php5 libapache2-mod-php5 php-apc php5-mysql php5-dev
+	sudo apt-get -y install php5 libapache2-mod-php5 php-apc php5-mysql php5-dev php5-curl php5-gd
 
 	# Install SSL tools
 	#apt-get -y install ssl-cert
