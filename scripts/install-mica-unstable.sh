@@ -42,6 +42,7 @@ fi
 sudo apt-get -y install make
 sudo apt-get -y install unzip
 sudo apt-get -y install openjdk-7-jre
+sudo apt-get -y install php5-curl
 
 # install mica-solr as a daemon
 sudo apt-get install daemon
