@@ -25,6 +25,7 @@ sudo debconf-set-selections <<< 'mica mica/mysql/admin-pass password rootpass'
 sudo debconf-set-selections <<< 'mica mica/mysql/app-pass password pass246'
 sudo debconf-set-selections <<< 'mica mica/password-confirm password pass246'
 
+sudo apt-get -y install php5-curl
 sudo apt-get -y install mica
 
 # load preinstalled database
