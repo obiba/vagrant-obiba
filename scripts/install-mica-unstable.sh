@@ -7,10 +7,10 @@ source $VAGRANT_DATA/settings
 cd /tmp
 
 # download distribution from jenkins
-wget -q http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_DIST.tar.gz
-tar xzf $MICA_DIST.tar.gz
+wget -q http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE.tar.gz
+tar xzf $MICA_UNSTABLE.tar.gz
 
-sudo cp -r $MICA_DIST /var/www/mica
+sudo cp -r $MICA_UNSTABLE /var/www/mica
 sudo chown -R www-data:www-data /var/www/mica
 
 if [ ! -d /etc/mysql ];
@@ -21,12 +21,12 @@ then
 fi
 
 # load preinstalled database
-if [ -f $VAGRANT_DATA/mica_dev/mica_dev.sql ];
+if [ -f $VAGRANT_DATA/mica-dev/mica-dev.sql ];
 then
 	echo "CREATE USER 'mica'@'localhost' IDENTIFIED BY 'pass246'" | mysql -uroot -prootpass
 	echo "CREATE DATABASE mica" | mysql -uroot -prootpass
 	echo "GRANT ALL ON mica.* TO 'mica'@'localhost'" | mysql -uroot -prootpass
-	sudo mysql -u mica --password='pass246' mica < $VAGRANT_DATA/mica_dev/mica_dev.sql
+	sudo mysql -u mica --password='pass246' mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
 fi
 
 if [ -f $VAGRANT_DATA/mica/settings.php ];
@@ -54,7 +54,7 @@ unzip master.zip
 cd /tmp/mica-master/src/main/deb/mica-solr/var/lib/mica-solr-installer
 sudo make mica-solr-install-prepare
 sudo make solr-install-setup
-sudo cp /tmp/$MICA_DIST/profiles/mica_distribution/modules/search_api_solr/solr-conf/4.x/* /usr/share/mica-solr/solr/collection1/conf/
+sudo cp /tmp/$MICA_UNSTABLE/profiles/mica_distribution/modules/search_api_solr/solr-conf/4.x/* /usr/share/mica-solr/solr/collection1/conf/
 sudo make solr-install-finish
 sudo cp /tmp/mica-master/src/main/deb/mica-solr/debian/init.d /etc/init.d/mica-solr
 sudo chmod +x /etc/init.d/mica-solr

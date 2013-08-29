@@ -68,6 +68,9 @@ Then connect to:
 
 ### Mica
 
+When launching a mica_dev vagrant, visit [http://localhost:8800/mica/update.php](http://localhost:8800/mica/update.php) 
+to make sure that the database is up-to-date with possibly new/updated modules.
+
 Example of a AWS instance running Mica:
 
 	cd vagrant-aws/mica
