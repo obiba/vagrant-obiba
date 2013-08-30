@@ -8,7 +8,7 @@ Vagrant files for OBiBa stack.
 ### Prerequisites
 
 * [Vagrant](http://www.vagrantup.com/)
-* [VirtualBox](https://www.virtualbox.org/) (version 4.1.x or 4.2.10 according to this [issue](https://github.com/mitchellh/vagrant/issues/1847))
+* [VirtualBox](https://www.virtualbox.org/) (version 4.2.16+)
 
 ### Opal
 
