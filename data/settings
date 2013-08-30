@@ -2,7 +2,7 @@ RSTUDIO=rstudio-server-0.97.551-i386.deb
 #RSTUDIO=rstudio-server-0.97.551-amd64.deb
 
 MICA_DIST=mica_distribution-7.x-8.2
-MICA_UNSTABLE=mica_distribution-7.x-8.2-dev
+MICA_UNSTABLE=mica_distribution-7.x-8.2-rc1
 
 MYSQL_ROOT_PWD=rootpass
 MYSQL_OPAL_PWD=opalpass
