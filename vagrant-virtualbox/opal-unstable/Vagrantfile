@@ -1,0 +1,18 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "precise32"
+  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.provision :shell, :path => "../../scripts/install-opal-unstable.sh"
+  config.vm.network :forwarded_port, host: 8880, guest: 8080
+  config.vm.network :forwarded_port, host: 8843, guest: 8443
+  config.vm.network :forwarded_port, host: 8822, guest: 8022
+  config.vm.network :forwarded_port, host: 8887, guest: 8787
+  config.vm.synced_folder "../../data", "/vagrant_data"
+
+  config.vm.provider :virtualbox do |vb|
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+  end
+end
