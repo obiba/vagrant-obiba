@@ -75,7 +75,7 @@ fi
 # Opal configuration setup
 sudo apt-get install unzip
 cd /tmp
-wget https://github.com/obiba/opal-home/archive/master.zip
+wget -q https://github.com/obiba/opal-home/archive/master.zip
 unzip master.zip
 sudo cp -r /tmp/opal-home-master/fs/* /var/lib/opal/fs
 sudo chown -R opal:nogroup /var/lib/opal/fs
