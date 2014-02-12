@@ -36,7 +36,7 @@ then
 fi
 
 # R install
-sudo apt-get -y install r-base r-cran-rserve
+#sudo apt-get -y install r-base r-cran-rserve
 
 # Java7 install
 sudo apt-get -y install java7-runtime
@@ -73,7 +73,7 @@ then
 fi
 
 # Opal configuration setup
-sudo apt-get install unzip
+sudo apt-get -y install unzip
 cd /tmp
 wget -q https://github.com/obiba/opal-home/archive/master.zip
 unzip master.zip
@@ -82,4 +82,17 @@ sudo chown -R opal:nogroup /var/lib/opal/fs
 rm -rf /tmp/opal-home-master
 rm -rf /tmp/master.zip
 
+if [ -f $VAGRANT_DATA/opal-dev/idsdb.json ];
+then
+	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/idsdb.json
+fi
 
+if [ -f $VAGRANT_DATA/opal-dev/sqldb.json ];
+then
+	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/sqldb.json
+fi
+
+if [ -f $VAGRANT_DATA/opal-dev/mongodb.json ];
+then
+	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/mongodb.json
+fi
