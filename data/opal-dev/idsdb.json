@@ -1,1 +1,1 @@
-{"usedForIdentifiers":true,"name":"_identifiers","usage":"STORAGE","defaultStorage":false,"sqlSettings":{"url":"jdbc:mysql://localhost:3306/opal_ids","driverClass":"com.mysql.jdbc.Driver","username":"opaluser","password":"opalpass","properties":"","sqlSchema":"HIBERNATE"}}
+{"usedForIdentifiers":true,"name":"_identifiers","usage":"STORAGE","defaultStorage":false,"sqlSettings":{"url":"jdbc:mysql://localhost:3306/opal_ids?characterEncoding=UTF-8","driverClass":"com.mysql.jdbc.Driver","username":"opaluser","password":"opalpass","properties":"","sqlSchema":"HIBERNATE"}}
