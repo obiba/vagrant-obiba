@@ -47,6 +47,7 @@ sudo debconf-set-selections <<< 'opal opal-server/admin_password password passwo
 sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password password'
 sudo apt-get -y install opal 
 sudo apt-get -y install opal-python-client
+sudo apt-get -y install rserver-admin
 
 # Opal database setup
 if [ -f $VAGRANT_DATA/mysql/my.cnf ];
