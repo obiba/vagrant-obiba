@@ -42,12 +42,13 @@ fi
 sudo apt-get -y install java7-runtime
 sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java
 
+# R dependencies
+sudo apt-get -y install rserver-admin
+
 # Opal install
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
 sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password password'
 sudo apt-get -y install opal 
-sudo apt-get -y install opal-python-client
-sudo apt-get -y install rserver-admin
 
 # Opal database setup
 if [ -f $VAGRANT_DATA/mysql/my.cnf ];
@@ -82,6 +83,8 @@ sudo cp -r /tmp/opal-home-master/fs/* /var/lib/opal/fs
 sudo chown -R opal:nogroup /var/lib/opal/fs
 rm -rf /tmp/opal-home-master
 rm -rf /tmp/master.zip
+
+sudo apt-get -y install opal-python-client
 
 if [ -f $VAGRANT_DATA/opal-dev/idsdb.json ];
 then
