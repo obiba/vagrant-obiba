@@ -35,15 +35,14 @@ then
 	sudo apt-get -y install mysql-server 
 fi
 
-# R install
-#sudo apt-get -y install r-base r-cran-rserve
-
 # Java7 install
 sudo apt-get -y install java7-runtime
 sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java
 
 # R dependencies
-sudo apt-get -y install rserver-admin
+sudo apt-get install -y r-cran-rserve daemon
+wget -q http://pkg.obiba.org/stable/rserver-admin-1.0.0-b20140227113905_all.deb
+sudo dpkg -i rserver-admin-1.0.0-b20140227113905_all.deb
 
 # Opal install
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
@@ -75,6 +74,7 @@ then
 fi
 
 # Opal configuration setup
+sleep 20
 sudo apt-get -y install unzip
 cd /tmp
 wget -q https://github.com/obiba/opal-home/archive/master.zip
