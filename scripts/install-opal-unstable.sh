@@ -43,6 +43,7 @@ sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/jav
 sudo apt-get install -y r-cran-rserve daemon
 wget -q http://pkg.obiba.org/stable/rserver-admin-1.0.0-b20140227113905_all.deb
 sudo dpkg -i rserver-admin-1.0.0-b20140227113905_all.deb
+sudo service rserver restart
 
 # Opal install
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
@@ -78,7 +79,7 @@ sleep 20
 sudo apt-get -y install unzip
 cd /tmp
 wget -q https://github.com/obiba/opal-home/archive/master.zip
-unzip master.zip
+unzip -q master.zip
 sudo cp -r /tmp/opal-home-master/fs/* /var/lib/opal/fs
 sudo chown -R opal:nogroup /var/lib/opal/fs
 rm -rf /tmp/opal-home-master
@@ -99,4 +100,12 @@ fi
 if [ -f $VAGRANT_DATA/opal-dev/mongodb.json ];
 then
 	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/mongodb.json
+fi
+
+# R client
+sudo apt-get -y install libcurl4-openssl-dev libxml2-dev
+if [ -f $VAGRANT_DATA/r/install-opal-r-client.R ];
+then
+	sudo $VAGRANT_DATA/r/install-opal-r-client.R
+	sudo service rserver restart
 fi
