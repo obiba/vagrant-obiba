@@ -37,8 +37,8 @@ then
 	sudo service mysql restart
 fi
 
-echo "CREATE DATABASE opal_data CHARACTER SET utf8" | mysql -uroot -prootpass
-echo "CREATE DATABASE opal_ids CHARACTER SET utf8" | mysql -uroot -prootpass
+echo "CREATE DATABASE opal_data CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -prootpass
+echo "CREATE DATABASE opal_ids CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -prootpass
 echo "CREATE USER 'opaluser'@'localhost' IDENTIFIED BY 'opalpass'" | mysql -uroot -prootpass
 echo "GRANT ALL ON opal_data.* TO 'opaluser'@'localhost'" | mysql -uroot -prootpass
 echo "GRANT ALL ON opal_ids.* TO 'opaluser'@'localhost'" | mysql -uroot -prootpass
