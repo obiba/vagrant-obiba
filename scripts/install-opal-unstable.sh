@@ -46,7 +46,7 @@ sudo service rserver restart
 # Opal install
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
 sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password password'
-sudo apt-get -y install opal 
+sudo apt-get -y install opal opal-python-client
 
 # Opal database setup
 if [ -f $VAGRANT_DATA/mysql/my.cnf ];
@@ -62,16 +62,6 @@ echo "GRANT ALL ON opal_data.* TO 'opaluser'@'localhost'" | mysql -uroot -prootp
 echo "GRANT ALL ON opal_ids.* TO 'opaluser'@'localhost'" | mysql -uroot -prootpass
 echo "FLUSH PRIVILEGES" | mysql -uroot -prootpass
 
-if [ -f $VAGRANT_DATA/mysql/opal_data-initial.sql ];
-then
-	mysql -uroot -prootpass opal_data < $VAGRANT_DATA/mysql/opal_data-initial.sql
-fi
-
-if [ -f $VAGRANT_DATA/mysql/opal_ids-initial.sql ];
-then
-	mysql -uroot -prootpass opal_ids < $VAGRANT_DATA/mysql/opal_ids-initial.sql
-fi
-
 # Opal configuration setup
 sleep 20
 sudo apt-get -y install unzip
@@ -82,8 +72,6 @@ sudo cp -r /tmp/opal-home-master/fs/* /var/lib/opal/fs
 sudo chown -R opal:nogroup /var/lib/opal/fs
 rm -rf /tmp/opal-home-master
 rm -rf /tmp/master.zip
-
-sudo apt-get -y install opal-python-client
 
 if [ -f $VAGRANT_DATA/opal-dev/idsdb.json ];
 then
@@ -101,7 +89,6 @@ then
 fi
 
 # R client
-sudo apt-get -y install libcurl4-openssl-dev libxml2-dev
 if [ -f $VAGRANT_DATA/r/install-opal-r-client.R ];
 then
 	sudo $VAGRANT_DATA/r/install-opal-r-client.R

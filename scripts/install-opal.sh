@@ -18,6 +18,9 @@ fi
 
 sudo apt-get update
 
+# MongoDB install
+sudo apt-get install mongodb-10gen
+
 if [ ! -d /etc/mysql ];
 then
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
@@ -27,8 +30,7 @@ fi
 
 sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
 sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password password'
-sudo apt-get -y install opal 
-sudo apt-get -y install opal-python-client
+sudo apt-get -y install opal opal-python-client
 
 # Opal database setup
 if [ -f $VAGRANT_DATA/mysql/my.cnf ];
@@ -44,42 +46,9 @@ echo "GRANT ALL ON opal_data.* TO 'opaluser'@'localhost'" | mysql -uroot -prootp
 echo "GRANT ALL ON opal_ids.* TO 'opaluser'@'localhost'" | mysql -uroot -prootpass
 echo "FLUSH PRIVILEGES" | mysql -uroot -prootpass
 
-if [ -f $VAGRANT_DATA/mysql/opal_data-initial.sql ];
-then
-	mysql -uroot -prootpass opal_data < $VAGRANT_DATA/mysql/opal_data-initial.sql
-fi
-
-if [ -f $VAGRANT_DATA/mysql/opal_ids-initial.sql ];
-then
-	mysql -uroot -prootpass opal_ids < $VAGRANT_DATA/mysql/opal_ids-initial.sql
-fi
-
-# Opal configuration setup
-if [ -d $VAGRANT_DATA/opal/conf ];
-then
-	sudo cp -r $VAGRANT_DATA/opal/conf/* /etc/opal
-	sudo chown -R opal:adm /etc/opal
-	sudo service opal restart
-fi
-
-if [ -d $VAGRANT_DATA/opal/fs ];
-then
-	sudo cp -r $VAGRANT_DATA/opal/fs/* /var/lib/opal/fs
-	sudo chown -R opal:nogroup /var/lib/opal/fs
-fi
-
 # R install
-sudo apt-get -y install r-base r-cran-rserve
-
-# R server setup
-if [ -f $VAGRANT_DATA/r/rserve ];
-then
-	sudo adduser --system --home /var/lib/rserve --disabled-password rserve
-	sudo cp $VAGRANT_DATA/r/rserve /etc/init.d
-	sudo chmod +x /etc/init.d/rserve
-	sudo update-rc.d rserve defaults
-	sudo service rserve start
-fi
+sudo apt-get -y install opal-rserver
+sudo service rserver restart
 
 # R studio setup
 wget -q http://download2.rstudio.org/$RSTUDIO
@@ -91,7 +60,6 @@ sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
 sudo update-rc.d rstudio-server defaults
 
 # Opal R client
-sudo apt-get -y install libcurl4-openssl-dev
 if [ -f $VAGRANT_DATA/r/install-opal-r-client.R ];
 then
 	sudo Rscript $VAGRANT_DATA/r/install-opal-r-client.R
@@ -99,8 +67,6 @@ then
 	sudo service rserve start
 	sudo Rscript $VAGRANT_DATA/r/install-opal-r-server.R
 fi
-
-# TODO install DataSHIELD packages (needs to restart rserve)
 
 # Add default datashield user
 sudo adduser --disabled-password --gecos "" datashield
