@@ -53,19 +53,19 @@ sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password 
 sudo apt-get -y install opal opal-python-client
 
 
-if [ -f $VAGRANT_DATA/opal-dev/idsdb.json ];
+if [ -f $VAGRANT_DATA/opal/idsdb.json ];
 then
-	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/idsdb.json
+	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/idsdb.json
 fi
 
-if [ -f $VAGRANT_DATA/opal-dev/sqldb.json ];
+if [ -f $VAGRANT_DATA/opal/sqldb.json ];
 then
-	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/sqldb.json
+	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/sqldb.json
 fi
 
-if [ -f $VAGRANT_DATA/opal-dev/mongodb.json ];
+if [ -f $VAGRANT_DATA/opal/mongodb.json ];
 then
-	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal-dev/mongodb.json
+	opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/mongodb.json
 fi
 
 # R dependencies
@@ -81,7 +81,7 @@ then
 	sudo Rscript $VAGRANT_DATA/r/install-opal-r-server.R
 fi
 
-# R studio setup
+# R studio
 wget -q http://download2.rstudio.org/$RSTUDIO
 sudo apt-get -y install libssl0.9.8
 sudo dpkg -i $RSTUDIO

@@ -4,7 +4,8 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
-  config.vm.provision :shell, :path => "../../scripts/install-opal.sh"
+  config.vm.provision :shell, :path => "../../scripts/opal/add-obiba-stable-apt-repo.sh"
+  config.vm.provision :shell, :path => "../../scripts/opal/install-opal.sh"
   config.vm.network :forwarded_port, host: 8880, guest: 8080
   config.vm.network :forwarded_port, host: 8843, guest: 8443
   config.vm.network :forwarded_port, host: 8822, guest: 8022
