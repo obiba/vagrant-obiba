@@ -1,11 +1,9 @@
 #! /usr/bin/Rscript --vanilla
 
-# Install some packages for reporting
-install.packages('ggplot2', repos=c('http://cran.rstudio.com'), dependencies=TRUE)
-
 # Install opal and opaladmin R packages
 install.packages('opaladmin', repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE)
-# Install datashied client R packages
+
+# Install datashield client R packages
 install.packages('datashieldclient', repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE)
 
 # Install datashield server R packages via opal
