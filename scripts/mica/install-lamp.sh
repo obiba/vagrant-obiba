@@ -23,7 +23,7 @@ then
 	sudo apt-get -y install apache2
 
 	# Install PHP5 support
-	sudo apt-get -y install make php5 libapache2-mod-php5 php-apc php5-mysql php5-dev php5-curl php5-gd
+	sudo apt-get -y install make php5 libapache2-mod-php5 php-apc php5-mysql php5-dev php5-curl php5-gd php-pear libcurl4-openssl-dev
 
 	# Install SSL tools
 	#apt-get -y install ssl-cert
@@ -31,14 +31,8 @@ then
 	# Install OpenSSL
 	sudo apt-get -y install openssl
 
-	# Install PHP pear
-	sudo apt-get -y install php-pear
-
 	# Install sendmail
 	#apt-get -y install sendmail
-
-	# Install CURL dev package
-	sudo apt-get -y install libcurl4-openssl-dev
 
 	# Install PECL HTTP (depends on php-pear, php5-dev, libcurl4-openssl-dev)
 	printf "\n" | pecl install pecl_http
@@ -62,6 +56,7 @@ then
 fi
 
 # execute this after Apache installation so we are sure MySQL is running
+echo ">> Create MySQL users"
 echo "CREATE DATABASE mica" | mysql -uroot -prootpass
 echo "CREATE USER '$MYSQL_MICA_USER'@'localhost' IDENTIFIED BY '$MYSQL_MICA_PWD'" | mysql -uroot -prootpass
 echo "GRANT ALL ON mica.* TO '$MYSQL_MICA_USER'@'localhost'" | mysql -uroot -prootpass

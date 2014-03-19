@@ -15,7 +15,7 @@ MICA_UNSTABLE=`wget -q -O - http://ci.obiba.org/view/Mica/job/Mica/ws/target/ | 
 MICA_UNSTABLE=${MICA_UNSTABLE:1}
 
 RELEASE_URL=http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE
-echo "Download $RELEASE_URL"
+echo ">> Download $RELEASE_URL"
 
 wget -q $RELEASE_URL
 tar xzf $MICA_UNSTABLE
@@ -24,19 +24,24 @@ sudo cp -r $MICA_UNSTABLE /var/www/mica
 sudo chown -R www-data:www-data /var/www/mica
 
 # load preinstalled database
+echo ">> Import Mica database"
 mysql -u $MYSQL_MICA_USER --password='$MYSQL_MICA_PWD' mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
 
 # copy mica settings.php
+echo ">> Configure Mica settings.php"
 sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica/sites/default/
 
-# Tools
+# utilities
+echo ">> Install utilities"
 sudo apt-get -y install make unzip daemon
 
 # Java7 install
+echo ">> Install Java"
 sudo apt-get -y install java7-runtime
 sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java
 
 # SolR setup
+echo ">> Install SolR"
 sudo mkdir -p /usr/share/mica-solr
 sudo mkdir -p /etc/mica-solr
 sudo mkdir -p /var/lib/mica-solr
