@@ -7,31 +7,27 @@ source $VAGRANT_DATA/settings
 cd /tmp
 
 # download lastest distribution from jenkins
+
 # output: >mica_distribution-7.x-9.0-b3083.tar.gz
 MICA_UNSTABLE=`wget -q -O - http://ci.obiba.org/view/Mica/job/Mica/ws/target/ | grep -o ">mica[^\'\"]*.tar.gz"`
+
+# remove first character
 MICA_UNSTABLE=${MICA_UNSTABLE:1}
+
 RELEASE_URL=http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE
 echo "Download $RELEASE_URL"
 
 wget -q $RELEASE_URL
-tar xzf $MICA_UNSTABLE.tar.gz
+tar xzf $MICA_UNSTABLE
 
 sudo cp -r $MICA_UNSTABLE /var/www/mica
 sudo chown -R www-data:www-data /var/www/mica
 
 # load preinstalled database
-if [ -f $VAGRANT_DATA/mica-dev/mica-dev.sql ];
-then
-	echo "CREATE USER 'mica'@'localhost' IDENTIFIED BY 'pass246'" | mysql -uroot -prootpass
-	echo "CREATE DATABASE mica" | mysql -uroot -prootpass
-	echo "GRANT ALL ON mica.* TO 'mica'@'localhost'" | mysql -uroot -prootpass
-	sudo mysql -u mica --password='pass246' mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
-fi
+mysql -u $MYSQL_MICA_USER --password='$MYSQL_MICA_PWD' mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
 
-if [ -f $VAGRANT_DATA/mica/settings.php ];
-then
-	sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica/sites/default/
-fi
+# copy mica settings.php
+sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica/sites/default/
 
 # Tools
 sudo apt-get -y install make unzip daemon

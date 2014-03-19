@@ -60,3 +60,9 @@ then
 	# Restart services
 	sudo service apache2 restart
 fi
+
+# execute this after Apache installation so we are sure MySQL is running
+echo "CREATE DATABASE mica" | mysql -uroot -prootpass
+echo "CREATE USER '$MYSQL_MICA_USER'@'localhost' IDENTIFIED BY '$MYSQL_MICA_PWD'" | mysql -uroot -prootpass
+echo "GRANT ALL ON mica.* TO '$MYSQL_MICA_USER'@'localhost'" | mysql -uroot -prootpass
+echo "FLUSH PRIVILEGES" | mysql -uroot -prootpass

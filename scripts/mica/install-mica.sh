@@ -21,15 +21,10 @@ sudo debconf-set-selections <<< 'mica mica/password-confirm password pass246'
 sudo apt-get -y install mica
 
 # load preinstalled database
-if [ -f $VAGRANT_DATA/mica/mica.sql ];
-then
-	sudo mysql -u mica --password='pass246' mica < $VAGRANT_DATA/mica/mica.sql
-fi
+mysql -u $MYSQL_MICA_USER --password='$MYSQL_MICA_PWD' mica < $VAGRANT_DATA/mica/mica.sql
 
-if [ -f $VAGRANT_DATA/mica/settings.php ];
-then
-	sudo cp $VAGRANT_DATA/mica/settings.php /usr/share/mica/sites/default/
-fi
+# copy mica settings.php
+sudo cp $VAGRANT_DATA/mica/settings.php /usr/share/mica/sites/default/
 
 # Add mica-solr service to boot
 sudo update-rc.d mica-solr defaults
