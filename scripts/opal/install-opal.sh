@@ -58,17 +58,17 @@ sudo Rscript $VAGRANT_DATA/r/install-opal-r-client.R
 sudo Rscript $VAGRANT_DATA/r/install-opal-r-server.R
 
 # R studio
-#wget -q http://download2.rstudio.org/$RSTUDIO
-#sudo apt-get -y install libssl0.9.8
-#sudo apt-get -y install libapparmor1
-#sudo dpkg -i $RSTUDIO
-#rm $RSTUDIO
-#sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
-#sudo update-rc.d rstudio-server defaults
+sudo apt-get -y install libapparmor1
+sudo apt-get -y install gdebi-core
+wget -q http://download2.rstudio.org/$RSTUDIO
+sudo gdebi -n $RSTUDIO
+rm $RSTUDIO
+sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
+sudo update-rc.d rstudio-server defaults
 
 # Add default datashield user
-#sudo adduser --disabled-password --gecos "" datashield
-#echo "datashield:datashield4ever" | sudo chpasswd
+sudo adduser --disabled-password --gecos "" datashield
+echo "datashield:datashield4ever" | sudo chpasswd
 
 # Add databases in Opal at the end of the VM setup so we are sure that Opal is running
 echo "Create Opal databases"
