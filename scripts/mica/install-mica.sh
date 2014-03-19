@@ -6,18 +6,11 @@ source $VAGRANT_DATA/settings
 
 if [ $(grep -c '^deb http://pkg.obiba.org stable/' /etc/apt/sources.list) -eq 0 ];
 then
-	wget -q -O - http://pkg.obiba.org/obiba.org.key | apt-key add -
+	wget -q -O - http://pkg.obiba.org/obiba.org.key | sudo apt-key add -
 	sudo sh -c 'echo "deb http://pkg.obiba.org stable/" >> /etc/apt/sources.list'
 fi
 
 sudo apt-get update
-
-if [ ! -d /etc/mysql ];
-then
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
-	sudo apt-get -y install mysql-server 
-fi
 
 sudo debconf-set-selections <<< 'mica mica/dbconfig-install boolean false'
 sudo debconf-set-selections <<< 'mica mica/database-type select mysql'
@@ -36,12 +29,6 @@ fi
 if [ -f $VAGRANT_DATA/mica/settings.php ];
 then
 	sudo cp $VAGRANT_DATA/mica/settings.php /usr/share/mica/sites/default/
-fi
-
-if [ -f $VAGRANT_DATA/mica/php.ini ];
-then
-	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/
-	sudo service apache2 restart
 fi
 
 # Add mica-solr service to boot
