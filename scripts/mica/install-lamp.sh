@@ -1,14 +1,20 @@
 #!/bin/bash
 
+VAGRANT_DATA=/vagrant_data
+
+source $VAGRANT_DATA/settings
+
 sudo apt-get update
 
-# if mysql does not exist
+# MySQL install
 if [ ! -d /etc/mysql ];
 then
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
 	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
-	sudo apt-get -y install mysql-server 
+	sudo apt-get -y install mysql-server
 fi
+sudo cp $VAGRANT_DATA/mysql/my.cnf /etc/mysql
+sudo service mysql restart
 
 # if apache2 does no exist
 if [ ! -d /etc/apache2 ];
@@ -48,6 +54,8 @@ then
 
 	# Add www-data to vagrant group
 	sudo usermod -a -G vagrant www-data
+
+	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/
 
 	# Restart services
 	sudo service apache2 restart

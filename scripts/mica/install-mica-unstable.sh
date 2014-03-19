@@ -6,19 +6,18 @@ source $VAGRANT_DATA/settings
 
 cd /tmp
 
-# download distribution from jenkins
-wget -q http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE.tar.gz
+# download lastest distribution from jenkins
+# output: >mica_distribution-7.x-9.0-b3083.tar.gz
+MICA_UNSTABLE=`wget -q -O - http://ci.obiba.org/view/Mica/job/Mica/ws/target/ | grep -o ">mica[^\'\"]*.tar.gz"`
+MICA_UNSTABLE=${MICA_UNSTABLE:1}
+RELEASE_URL=http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE
+echo "Download $RELEASE_URL"
+
+wget -q $RELEASE_URL
 tar xzf $MICA_UNSTABLE.tar.gz
 
 sudo cp -r $MICA_UNSTABLE /var/www/mica
 sudo chown -R www-data:www-data /var/www/mica
-
-if [ ! -d /etc/mysql ];
-then
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
-	sudo apt-get -y install mysql-server 
-fi
 
 # load preinstalled database
 if [ -f $VAGRANT_DATA/mica-dev/mica-dev.sql ];
@@ -34,20 +33,18 @@ then
 	sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica/sites/default/
 fi
 
-if [ -f $VAGRANT_DATA/mica/php.ini ];
-then
-	sudo cp $VAGRANT_DATA/mica/php.ini /etc/php5/apache2/	
-fi
+# Tools
+sudo apt-get -y install make unzip daemon
 
-sudo apt-get -y install make
-sudo apt-get -y install unzip
-sudo apt-get -y install openjdk-7-jre
+# Java7 install
+sudo apt-get -y install java7-runtime
+sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java
 
-# install mica-solr as a daemon
-sudo apt-get install daemon
+# SolR setup
 sudo mkdir -p /usr/share/mica-solr
 sudo mkdir -p /etc/mica-solr
 sudo mkdir -p /var/lib/mica-solr
+
 # get source code
 wget -q https://github.com/obiba/mica/archive/master.zip
 unzip master.zip
@@ -60,3 +57,6 @@ sudo cp /tmp/mica-master/src/main/deb/mica-solr/debian/init.d /etc/init.d/mica-s
 sudo chmod +x /etc/init.d/mica-solr
 sudo update-rc.d mica-solr defaults
 sudo service mica-solr start
+
+# Clean temp files
+rm -rf /tmp/$MICA_UNSTABLE
