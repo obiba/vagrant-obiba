@@ -53,25 +53,24 @@ sudo apt-get -y install opal-python-client
 sudo apt-get install -y opal-rserver
 sudo service rserver restart
 
-# Opal R client
+# Opal Datashield
 sudo Rscript $VAGRANT_DATA/r/install-opal-r-client.R
-sudo service rserve restart
 sudo Rscript $VAGRANT_DATA/r/install-opal-r-server.R
 
 # R studio
-wget -q http://download2.rstudio.org/$RSTUDIO
-sudo apt-get -y install libssl0.9.8
-sudo dpkg -i $RSTUDIO
-rm $RSTUDIO
-
-sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
-sudo update-rc.d rstudio-server defaults
+#wget -q http://download2.rstudio.org/$RSTUDIO
+#sudo apt-get -y install libssl0.9.8
+#sudo apt-get -y install libapparmor1
+#sudo dpkg -i $RSTUDIO
+#rm $RSTUDIO
+#sudo cp /usr/lib/rstudio-server/extras/init.d/debian/rstudio-server /etc/init.d
+#sudo update-rc.d rstudio-server defaults
 
 # Add default datashield user
-sudo adduser --disabled-password --gecos "" datashield
-echo "datashield:datashield4ever" | sudo chpasswd
+#sudo adduser --disabled-password --gecos "" datashield
+#echo "datashield:datashield4ever" | sudo chpasswd
 
-# create databases in Opal at the end of the VM setup so we are sure that Opal is running
+# Add databases in Opal at the end of the VM setup so we are sure that Opal is running
 echo "Create Opal databases"
 opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/idsdb.json
 opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/sqldb.json
