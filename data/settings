@@ -3,5 +3,11 @@ RSTUDIO=rstudio-server-0.98.501-i386.deb
 MICA_DIST=mica_distribution-7.x-8.2
 
 MYSQL_ROOT_PWD=rootpass
+
+MYSQL_OPAL_USER=opaluser
 MYSQL_OPAL_PWD=opalpass
+
+MYSQL_MICA_USER=mica
+MYSQL_MICA_PWD=micapass
+
 OPAL_PWD=password

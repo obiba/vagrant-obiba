@@ -38,9 +38,9 @@ sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/jav
 # execute this after Java installation so we are sure MySQL is running
 echo "CREATE DATABASE opal_data CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -prootpass
 echo "CREATE DATABASE opal_ids CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -prootpass
-echo "CREATE USER 'opaluser'@'localhost' IDENTIFIED BY 'opalpass'" | mysql -uroot -prootpass
-echo "GRANT ALL ON opal_data.* TO 'opaluser'@'localhost'" | mysql -uroot -prootpass
-echo "GRANT ALL ON opal_ids.* TO 'opaluser'@'localhost'" | mysql -uroot -prootpass
+echo "CREATE USER '$MYSQL_OPAL_USER'@'localhost' IDENTIFIED BY '$MYSQL_OPAL_PWD'" | mysql -uroot -prootpass
+echo "GRANT ALL ON opal_data.* TO '$MYSQL_OPAL_USER'@'localhost'" | mysql -uroot -prootpass
+echo "GRANT ALL ON opal_ids.* TO '$MYSQL_OPAL_USER'@'localhost'" | mysql -uroot -prootpass
 echo "FLUSH PRIVILEGES" | mysql -uroot -prootpass
 
 # Opal install
