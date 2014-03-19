@@ -1,7 +1,7 @@
 #! /usr/bin/Rscript --vanilla
 
-# Publish datashield server R packages in opal
+# Install datashield server R packages via opal
 library(opaladmin)
-o<-opal.login('administrator', 'password', url='http://localhost:8080')
-dsadmin.set_package_methods(o, 'dsbase')
-dsadmin.set_package_methods(o, 'dsmodelling')
+o<-opal.login('administrator', 'password', url='https://localhost:8443')
+dsadmin.install_package(o, 'datashield')
+opal.logout(o)
