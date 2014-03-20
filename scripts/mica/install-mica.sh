@@ -15,9 +15,9 @@ sudo apt-get update
 # all these config will be overridden when copying settings.php
 sudo debconf-set-selections <<< 'mica mica/dbconfig-install boolean false'
 sudo debconf-set-selections <<< 'mica mica/database-type select mysql'
-sudo debconf-set-selections <<< 'mica mica/mysql/admin-pass password password'
-sudo debconf-set-selections <<< 'mica mica/mysql/app-pass password password'
-sudo debconf-set-selections <<< 'mica mica/password-confirm password password'
+echo mica mica/mysql/admin-pass select $MYSQL_ROOT_PWD | debconf-set-selections
+echo mica mica/mysql/app-pass select $MYSQL_MICA_PWD | debconf-set-selections
+echo mica mica/password-confirm select $MYSQL_MICA_PWD | debconf-set-selections
 
 sudo apt-get -y install mica
 
@@ -32,3 +32,4 @@ sudo sed -i 's/@MYSQL_MICA_PWD@/'$MYSQL_MICA_PWD'/' /usr/share/mica/sites/defaul
 # Add mica-solr service to boot
 sudo update-rc.d mica-solr defaults
 sudo service mica-solr restart
+sudo service apache2 restart
