@@ -18,7 +18,7 @@ Example on the VirtualBox VM running Opal:
 	vagrant up
 
 Then connect to:
-* opal on [https://localhost:8843](https://localhost:8843)
+* opal on [https://localhost:8843](https://localhost:8843) with administrator/password
 * opal on `sftp -P 8822 administrator@localhost`
 * RStudio on [https://localhost:8887](https://localhost:8887)
 
@@ -30,7 +30,7 @@ Example on the VirtualBox VM running Mica:
 	vagrant up
 
 Then connect to:
-* mica on [http://localhost:8800/mica](http://localhost:8800/mica)
+* mica on [http://localhost:8800/mica](http://localhost:8800/mica) with administrator/password
 
 ### Opal + Mica
 

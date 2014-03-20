@@ -9,8 +9,8 @@ sudo apt-get update
 # MySQL install
 if [ ! -d /etc/mysql ];
 then
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
+  echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PWD | debconf-set-selections
+  echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PWD | debconf-set-selections
 	sudo apt-get -y install mysql-server
 fi
 sudo cp $VAGRANT_DATA/mysql/my.cnf /etc/mysql
@@ -57,7 +57,7 @@ fi
 
 # execute this after Apache installation so we are sure MySQL is running
 echo ">> Create MySQL users"
-echo "CREATE DATABASE mica" | mysql -uroot -prootpass
-echo "CREATE USER '$MYSQL_MICA_USER'@'localhost' IDENTIFIED BY '$MYSQL_MICA_PWD'" | mysql -uroot -prootpass
-echo "GRANT ALL ON mica.* TO '$MYSQL_MICA_USER'@'localhost'" | mysql -uroot -prootpass
-echo "FLUSH PRIVILEGES" | mysql -uroot -prootpass
+echo "CREATE DATABASE mica" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "CREATE USER '$MYSQL_MICA_USER'@'localhost' IDENTIFIED BY '$MYSQL_MICA_PWD'" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "GRANT ALL ON mica.* TO '$MYSQL_MICA_USER'@'localhost'" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "FLUSH PRIVILEGES" | mysql -uroot -p$MYSQL_ROOT_PWD
