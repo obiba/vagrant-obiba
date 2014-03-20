@@ -28,7 +28,7 @@ sudo chown -R www-data:www-data /var/www/mica
 
 # load preinstalled database
 echo ">> Import Mica database"
-mysql -u $MYSQL_MICA_USER --password=$MYSQL_MICA_PWD mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
+mysql -u $MYSQL_MICA_USER --password=$MYSQL_MICA_PWD mica < $VAGRANT_DATA/mica/mica-dev.sql
 
 # copy mica settings.php
 echo ">> Configure Mica settings.php"
