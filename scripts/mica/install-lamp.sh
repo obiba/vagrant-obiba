@@ -12,9 +12,9 @@ then
   echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PWD | debconf-set-selections
   echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PWD | debconf-set-selections
 	sudo apt-get -y install mysql-server
+  sudo cp $VAGRANT_DATA/mysql/my.cnf /etc/mysql
+  sudo service mysql restart
 fi
-sudo cp $VAGRANT_DATA/mysql/my.cnf /etc/mysql
-sudo service mysql restart
 
 # if apache2 does no exist
 if [ ! -d /etc/apache2 ];
