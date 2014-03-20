@@ -33,6 +33,8 @@ mysql -u $MYSQL_MICA_USER --password=$MYSQL_MICA_PWD mica < $VAGRANT_DATA/mica-d
 # copy mica settings.php
 echo ">> Configure Mica settings.php"
 sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica/sites/default/
+sudo sed -i 's/@MYSQL_MICA_USER@/'$MYSQL_MICA_USER'/' /var/www/mica/sites/default/settings.php
+sudo sed -i 's/@MYSQL_MICA_PWD@/'$MYSQL_MICA_PWD'/' /var/www/mica/sites/default/settings.php
 
 # utilities
 echo ">> Install utilities"

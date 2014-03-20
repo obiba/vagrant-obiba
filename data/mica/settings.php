@@ -216,8 +216,8 @@ $databases = array (
     'default' => 
     array (
       'database' => 'mica',
-      'username' => 'mica',
-      'password' => 'pass246',
+      'username' => '@MYSQL_MICA_USER@',
+      'password' => '@MYSQL_MICA_PWD@',
       'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',
