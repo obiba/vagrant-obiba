@@ -24,9 +24,9 @@ sudo apt-get install mongodb-10gen
 # MySQL install
 if [ ! -d /etc/mysql ];
 then
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
-	sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
-	sudo apt-get -y install mysql-server 
+  echo mysql-server mysql-server/root_password select $MYSQL_ROOT_PWD | debconf-set-selections
+  echo mysql-server mysql-server/root_password_again select $MYSQL_ROOT_PWD | debconf-set-selections
+	sudo apt-get -y install mysql-server
 fi
 sudo cp $VAGRANT_DATA/mysql/my.cnf /etc/mysql
 sudo service mysql restart
@@ -36,18 +36,18 @@ sudo apt-get -y install java7-runtime
 sudo update-alternatives --set java /usr/lib/jvm/java-7-openjdk-i386/jre/bin/java
 
 # execute this after Java installation so we are sure MySQL is running
-echo "CREATE DATABASE opal_data CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -prootpass
-echo "CREATE DATABASE opal_ids CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -prootpass
-echo "CREATE USER '$MYSQL_OPAL_USER'@'localhost' IDENTIFIED BY '$MYSQL_OPAL_PWD'" | mysql -uroot -prootpass
-echo "GRANT ALL ON opal_data.* TO '$MYSQL_OPAL_USER'@'localhost'" | mysql -uroot -prootpass
-echo "GRANT ALL ON opal_ids.* TO '$MYSQL_OPAL_USER'@'localhost'" | mysql -uroot -prootpass
-echo "FLUSH PRIVILEGES" | mysql -uroot -prootpass
+echo "CREATE DATABASE opal_data CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "CREATE DATABASE opal_ids CHARACTER SET utf8 COLLATE utf8_bin" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "CREATE USER '$MYSQL_OPAL_USER'@'localhost' IDENTIFIED BY '$MYSQL_OPAL_PWD'" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "GRANT ALL ON opal_data.* TO '$MYSQL_OPAL_USER'@'localhost'" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "GRANT ALL ON opal_ids.* TO '$MYSQL_OPAL_USER'@'localhost'" | mysql -uroot -p$MYSQL_ROOT_PWD
+echo "FLUSH PRIVILEGES" | mysql -uroot -p$MYSQL_ROOT_PWD
 
 # Opal install
-sudo debconf-set-selections <<< 'opal opal-server/admin_password password password'
-sudo debconf-set-selections <<< 'opal opal-server/admin_password_again password password'
-sudo apt-get -y install opal
-sudo apt-get -y install opal-python-client
+echo opal opal-server/admin_password select $OPAL_PWD | debconf-set-selections
+echo opal opal-server/admin_password_again select $OPAL_PWD | debconf-set-selections
+sudo apt-get install -y opal
+sudo apt-get install -y opal-python-client
 
 # R dependencies
 sudo apt-get install -y opal-rserver
@@ -72,6 +72,6 @@ echo "datashield:datashield4ever" | sudo chpasswd
 
 # Add databases in Opal at the end of the VM setup so we are sure that Opal is running
 echo "Create Opal databases"
-opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/idsdb.json
-opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/sqldb.json
-opal rest -o http://localhost:8080 -u administrator -p password -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/mongodb.json
+opal rest -o http://localhost:8080 -u administrator -p $OPAL_PWD -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/idsdb.json
+opal rest -o http://localhost:8080 -u administrator -p $OPAL_PWD -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/sqldb.json
+opal rest -o http://localhost:8080 -u administrator -p $OPAL_PWD -m POST /system/databases --content-type "application/json" < $VAGRANT_DATA/opal/mongodb.json

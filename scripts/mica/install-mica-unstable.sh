@@ -9,27 +9,32 @@ cd /tmp
 # download lastest distribution from jenkins
 
 # output: >mica_distribution-7.x-9.0-b3083.tar.gz
-MICA_UNSTABLE=`wget -q -O - http://ci.obiba.org/view/Mica/job/Mica/ws/target/ | grep -o ">mica[^\'\"]*.tar.gz"`
+MICA_UNSTABLE_ARCHIVE=`wget -q -O - http://ci.obiba.org/view/Mica/job/Mica/ws/target/ | grep -o ">mica[^\'\"]*.tar.gz"`
 
 # remove first character
-MICA_UNSTABLE=${MICA_UNSTABLE:1}
+MICA_UNSTABLE_ARCHIVE=${MICA_UNSTABLE_ARCHIVE:1}
 
-RELEASE_URL=http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE
+RELEASE_URL=http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE_ARCHIVE
 echo ">> Download $RELEASE_URL"
 
-wget -q $RELEASE_URL
-tar xzf $MICA_UNSTABLE
+sudo wget -q $RELEASE_URL
+sudo tar xzf $MICA_UNSTABLE_ARCHIVE
+
+# remove .tar.gz
+MICA_UNSTABLE=${MICA_UNSTABLE_ARCHIVE:0:31}
 
 sudo cp -r $MICA_UNSTABLE /var/www/mica
 sudo chown -R www-data:www-data /var/www/mica
 
 # load preinstalled database
 echo ">> Import Mica database"
-mysql -u $MYSQL_MICA_USER --password='$MYSQL_MICA_PWD' mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
+mysql -u $MYSQL_MICA_USER --password=$MYSQL_MICA_PWD mica < $VAGRANT_DATA/mica-dev/mica-dev.sql
 
 # copy mica settings.php
 echo ">> Configure Mica settings.php"
 sudo cp $VAGRANT_DATA/mica/settings.php /var/www/mica/sites/default/
+sudo sed -i 's/@MYSQL_MICA_USER@/'$MYSQL_MICA_USER'/' /var/www/mica/sites/default/settings.php
+sudo sed -i 's/@MYSQL_MICA_PWD@/'$MYSQL_MICA_PWD'/' /var/www/mica/sites/default/settings.php
 
 # utilities
 echo ">> Install utilities"
