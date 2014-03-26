@@ -14,15 +14,15 @@ MICA_UNSTABLE_ARCHIVE=`wget -q -O - http://ci.obiba.org/view/Mica/job/Mica/ws/ta
 # remove first character
 MICA_UNSTABLE_ARCHIVE=${MICA_UNSTABLE_ARCHIVE:1}
 
+# remove .tar.gz
+MICA_UNSTABLE=${MICA_UNSTABLE_ARCHIVE/\.tar\.gz/}
+echo ">> Prepare $MICA_UNSTABLE setup"
+
 RELEASE_URL=http://ci.obiba.org/view/Mica/job/Mica/ws/target/$MICA_UNSTABLE_ARCHIVE
 echo ">> Download $RELEASE_URL"
 
 sudo wget -q $RELEASE_URL
 sudo tar xzf $MICA_UNSTABLE_ARCHIVE
-
-# remove .tar.gz
-MICA_UNSTABLE=${MICA_UNSTABLE_ARCHIVE:0:31}
-
 sudo cp -r $MICA_UNSTABLE /var/www/mica
 sudo chown -R www-data:www-data /var/www/mica
 
