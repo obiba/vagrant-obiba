@@ -1,6 +1,6 @@
 RSTUDIO=rstudio-server-0.98.501-i386.deb
 
-MICA_DIST=mica_distribution-7.x-8.2
+MICA_DIST=mica_distribution-7.x-9.1
 
 MYSQL_ROOT_PWD=rootpass
 
