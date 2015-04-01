@@ -7,6 +7,9 @@ MYSQL_ROOT_PWD=rootpass
 MYSQL_OPAL_USER=opaluser
 MYSQL_OPAL_PWD=opalpass
 
+MYSQL_ONYX_USER=onyxuser
+MYSQL_ONYX_PWD=onyxpass
+
 MYSQL_MICA_USER=mica
 MYSQL_MICA_PWD=micapass
 
